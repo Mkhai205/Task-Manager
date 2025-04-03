@@ -1,19 +1,14 @@
-import dotenv from "dotenv";
+import "dotenv/config";
 import express from "express";
-import cors from "cors";
+import corsConfig from "./config/cors.js";
 import path from "path";
 import connectDB from "./config/db.js";
+import mainRouter from "./routes/mainRoutes.js";
 
 const app = express();
 
 // Middleware to handle CORS
-app.use(
-    cors({
-        origin: process.env.CLIENT_URL || "*",
-        methods: ["GET", "POST", "PUT", "DELETE"],
-        allowedHeaders: ["Content-Type", "Authorization"],
-    })
-);
+app.use(corsConfig);
 
 // Connect Database
 connectDB();
@@ -23,10 +18,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
-// app.use("/api/auth", authRoutes);
-// app.use("/api/users", userRoutes);
-// app.use("/api/tasks", taskRoutes);
-// app.use("/api/reports", reportRoutes);
+app.use("/api", mainRouter);
 
 // Start the server
 const PORT = process.env.PORT || 5000;

@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt";
+import bcrypt from 'bcryptjs';
 
 const saltRounds = 10;
 
@@ -7,7 +7,7 @@ const saltRounds = 10;
  * @param {string} password - Mật khẩu cần hash
  * @returns {Promise<string>} - Mật khẩu đã hash
  */
-export const hashPassword = async (password) => {
+const hashPassword = async (password) => {
   return await bcrypt.hash(password, saltRounds);
 };
 
@@ -17,7 +17,7 @@ export const hashPassword = async (password) => {
  * @param {string} hashedPassword - Mật khẩu đã hash trong DB
  * @returns {Promise<boolean>} - true nếu khớp, ngược lại false
  */
-export const comparePassword = async (password, hashedPassword) => {
+const comparePassword = async (password, hashedPassword) => {
   return await bcrypt.compare(password, hashedPassword);
 };
 
