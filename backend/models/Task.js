@@ -15,7 +15,7 @@ const taskSchema = new mongoose.Schema(
         priority: {type: String, enum: ["Low", "Medium", "High"], default: "Medium"},
         status: {type: String, enum: ["Pending", "In Progress", "Completed"], default: "Pending"},
         dueDate: {type: Date, required: true},
-        assignedTo: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
+        assignedTo: [{type: mongoose.Schema.Types.ObjectId, ref: "User"}],
         createdBy: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
         attachments: [{type: String}], // URLs of the files
         todoChecklist: [todoSchema], // Array of todo items
