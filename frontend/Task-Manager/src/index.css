@@ -1,19 +1,23 @@
-@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Serif:ital,opsz,wght@0,8..144,100..900;1,8..144,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&family=Roboto+Serif:ital,opsz,wght@0,8..144,100..900;1,8..144,100..900&display=swap");
 @import "tailwindcss";
 
 @theme {
-  --font-display: "Poppins", "sans-serif";
-  --breakpoint-3xl: 1920px;
-  --color-primary: #1368EC;
+    --font-display: "Poppins", "sans-serif";
+    --breakpoint-3xl: 1920px;
+    --color-primary: #1368ec;
 }
 
 @layer base {
-  html {
-    font-family: var(--font-display);
-  }
+    html {
+        font-family: var(--font-display);
+    }
 
-  body {
-    background-color: #fcfbfc;
-    overflow-x: hidden;
-  }
+    body {
+        background-color: #fcfbfc;
+        overflow-x: hidden;
+    }
+}
+
+.input-box {
+    @apply w-full flex justify-between gap-3 text-lg text-black bg-slate-100/50 rounded px-4 py-3 mt-3 border border-slate-300/50 shadow-sm focus-within:border-slate-500 focus-within:ring-1 focus-within:ring-slate-500;
 }
