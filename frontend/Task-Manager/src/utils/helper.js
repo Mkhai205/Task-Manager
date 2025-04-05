@@ -6,3 +6,12 @@ export const validateEmail = (email) => {
 export const validatePassword = (password) => {
     return password.length >= 8;
 }
+
+export const addThousandSeparator = (num) => {
+    if(num == null || isNaN(num)) return "";
+
+    const [integerPart, fractionalPart] = num.toString().split('.');
+    const formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+    return fractionalPart ? `${formattedIntegerPart}.${fractionalPart}` : formattedIntegerPart;
+}

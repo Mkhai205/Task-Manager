@@ -285,7 +285,7 @@ const getDashboardData = async (req, res) => {
         ]);
 
         const taskDistribution = taskStatuses.reduce((acc, status) => {
-            const formattedKey = status.replace(/\s+/g, "_").toLowerCase(); // Format status to match the key format
+            const formattedKey = status.replace(/\s+/g, ""); // Format status to match the key format
             acc[formattedKey] = taskDistributionRaw.find((item) => item._id === status)?.count || 0; // Default to 0 if not found
             return acc;
         }, {});
