@@ -19,5 +19,5 @@
 }
 
 .input-box {
-    @apply w-full flex justify-between gap-3 text-lg text-black bg-slate-100/50 rounded px-4 py-3 mt-3 border border-slate-300/50 shadow-sm focus-within:border-slate-500 focus-within:ring-1 focus-within:ring-slate-500;
+    @apply w-full flex justify-between gap-3 text-sm text-black bg-slate-100/50 rounded px-4 py-3 mt-3 border border-slate-300/50 shadow-sm focus-within:border-primary focus-within:ring-1 focus-within:ring-primary;
 }

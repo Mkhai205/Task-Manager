@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import AuthLayout from "../../components/layouts/AuthLayout.jsx";
 import { useNavigate } from "react-router-dom";
 import Input from "../../components/Inputs/Input.jsx";
 import { validateEmail, validatePassword } from "../../utils/helper.js";
+import axiosInstance from "../../utils/axiosInstance.js";
+import { API_PATHS } from "../../utils/apiPaths.js";
+import { UserContext } from "../../context/userContext.jsx";
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -11,16 +14,18 @@ const Login = () => {
 
     const navigate = useNavigate();
 
+    const { updateUser } = useContext(UserContext); // Import the context to update user data
+
     // Handle Login Form Submit
     const handleLogin = async (e) => {
         e.preventDefault();
 
-        if(!validateEmail(email)) {
+        if (!validateEmail(email)) {
             setError("Invalid email address");
             return;
         }
 
-        if(!validatePassword(password)) {
+        if (!validatePassword(password)) {
             setError("Password must be at least 8 characters long");
             return;
         }
@@ -28,6 +33,37 @@ const Login = () => {
         setError(""); // Clear any previous error
 
         // Login API Call
+        try {
+            const response = await axiosInstance.post(API_PATHS.AUTH.LOGIN, {
+                email,
+                password,
+            });
+
+            console.log(response.data); // Log the response data for debugging
+            
+
+            const { token, role } = response.data.data;
+
+            if (token) {
+                localStorage.setItem("token", token); // Store the token in local storage
+                updateUser(response.data.data); // Update user context with the response data
+
+                // Redirect based on user role
+                if (role === "admin") {
+                    navigate("/admin/dashboard");
+                } else if (role === "member") {
+                    navigate("/user/dashboard");
+                } else {
+                    setError("Invalid user role. Please contact support.");
+                }
+            }
+        } catch (error) {
+            if(error.response && error.response.data.message) {
+                setError(error.response.data.message); // Set error message from server response
+            } else {
+                setError("Something went wrong. Please try again later."); // Fallback error message
+            }
+        }
     };
 
     return (
@@ -37,7 +73,7 @@ const Login = () => {
                 <p className="text-gray-600 text-lg mb-4 text-center">
                     Please enter your credentials to access your account.
                 </p>
-                <form onSubmit={handleLogin} className="w-full flex flex-col gap-4">
+                <form onSubmit={handleLogin} className="w-full flex flex-col gap-2">
                     <Input
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
@@ -58,7 +94,7 @@ const Login = () => {
 
                     <button
                         type="submit"
-                        className="w-[80%] m-auto mt-3 mb-3 bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-200"
+                        className="w-full max-w-md m-auto mt-3 mb-3 bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-200"
                     >
                         LOGIN
                     </button>
@@ -67,9 +103,9 @@ const Login = () => {
                     Don't have an account?{" "}
                     <span
                         className="text-blue-500 cursor-pointer"
-                        onClick={() => navigate("/register")}
+                        onClick={() => navigate("/signUp")}
                     >
-                        Register
+                        Sign up
                     </span>
                 </p>
             </div>

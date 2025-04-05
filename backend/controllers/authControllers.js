@@ -145,25 +145,7 @@ const uploadProfileImage = async (req, res) => {
 
         const imageUrl = `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`; // Construct the image URL
 
-        const user = await User.findById(req.user._id);
-        if (!user) {
-            return sendResponse(res, 404, false, "User not found");
-        }
-
-        // Update profile image URL
-        user.profileImageUrl = imageUrl;
-        await user.save();
-
-        // Return updated user data
-        const userData = {
-            _id: user._id,
-            name: user.name,
-            email: user.email,
-            profileImageUrl: user.profileImageUrl,
-            role: user.role,
-        };
-
-        return sendResponse(res, 200, true, "Profile image uploaded successfully", userData);
+        return sendResponse(res, 200, true, "Profile image uploaded successfully", imageUrl);
     } catch (error) {
         return sendResponse(res, 500, false, "Server error", error.message);
     }
