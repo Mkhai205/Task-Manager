@@ -13,7 +13,7 @@ import TaskListTable from "../../components/TaskListTable";
 import CustomPieChart from "../../components/Charts/CustomPieChart";
 import CustomBarChart from "../../components/Charts/CustomBarChart";
 
-const COLORS = ["#8D51FF", "#00B8DB", "#7BCE00"];
+const COLORS = ["#8D51FF", "#F2E64C", "#7BCE00"];
 
 const Dashboard = () => {
     useUserAuth();
