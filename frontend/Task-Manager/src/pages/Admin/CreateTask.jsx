@@ -66,7 +66,7 @@ const CreateTask = () => {
                 todoChecklist: todoList,
             });
 
-            if(response.data.success) {
+            if (response.data.success) {
                 toast.success("Task created successfully!");
                 clearTaskData();
             }
@@ -85,35 +85,59 @@ const CreateTask = () => {
     const deleteTask = async () => {};
 
     // Get Task info by ID
-    const getTaskDetailsByID = async () => {};
+    const getTaskDetailsByID = async (taskId) => {
+        try {
+            const response = await axiosInstance.get(API_PATHS.TASKS.GET_TASK_BY_ID(taskId));
+
+            if (response.data?.success) {
+                const taskDetails = response.data.data;
+                setCurrentTask(taskDetails);
+
+                setTaskData({
+                    title: taskDetails.title,
+                    description: taskDetails.description,
+                    priority: taskDetails.priority,
+                    dueDate: taskDetails.dueDate
+                        ? moment(taskDetails.dueDate).format("YYYY-MM-DD")
+                        : null,
+                    assignedTo: taskDetails.assignedTo?.map((user) => user?._id) || [],
+                    todoChecklist: taskDetails.todoChecklist.map((item) => item.text) || [],
+                    attachments: taskDetails.attachments || [],
+                });
+            }
+        } catch (error) {
+            console.error("Error fetching task details:", error);
+            setError("Failed to fetch task details. Please try again.");
+        }
+    };
 
     // Submit Task
     const handleSubmit = async () => {
         setError("");
 
         // Input Validation
-        if(!taskData.title.trim()) {
+        if (!taskData.title.trim()) {
             setError("Please enter task title");
             return;
         }
-        if(!taskData.description.trim()) {
+        if (!taskData.description.trim()) {
             setError("Please enter task description");
             return;
         }
-        if(!taskData.dueDate.trim()) {
+        if (!taskData.dueDate.trim()) {
             setError("Please select due date");
             return;
         }
-        if(taskData.assignedTo.length === 0) {
+        if (taskData.assignedTo.length === 0) {
             setError("Please select at least one user to assign the task");
             return;
         }
-        if(taskData.todoChecklist.length === 0) {
+        if (taskData.todoChecklist.length === 0) {
             setError("Please add at least one item to the checklist");
             return;
         }
 
-        if(taskId) {
+        if (taskId) {
             updateTask();
             return;
         }
@@ -122,11 +146,17 @@ const CreateTask = () => {
     };
 
     useEffect(() => {
+        if (taskId) {
+            getTaskDetailsByID(taskId);
+        }
+    }, [taskId]);
+
+    useEffect(() => {
         if (error) {
             const timeout = setTimeout(() => {
                 setError(""); // Clear the error after 5 seconds
             }, 5000);
-    
+
             // Cleanup the timeout when the component unmounts or `error` changes
             return () => clearTimeout(timeout);
         }
@@ -242,16 +272,10 @@ const CreateTask = () => {
                             />
                         </div>
 
-                        {error && (
-                            <p className="text-xs font-medium text-red-500 mt-5">{error}</p>
-                        )}
+                        {error && <p className="text-xs font-medium text-red-500 mt-5">{error}</p>}
 
                         <div className="flex justify-end mt-7">
-                            <button
-                                className="add-btn"
-                                onClick={handleSubmit}
-                                disabled={loading}
-                            >
+                            <button className="add-btn" onClick={handleSubmit} disabled={loading}>
                                 {taskId ? "Update Task" : "Create Task"}
                             </button>
                         </div>
