@@ -35,20 +35,20 @@ const SelectUsers = ({ selectedUsers, setSelectedUsers }) => {
         setIsModalOpen(false);
     };
 
-    const selectedUserAvatars = allUsers
-        .filter((user) => selectedUsers?.includes(user._id))
-
+    const selectedUserAvatars = allUsers.filter((user) => selectedUsers?.includes(user._id));
+    
     useEffect(() => {
         getAllUsers();
     }, []);
-
+    
     useEffect(() => {
         if (selectedUsers?.length === 0) {
             setTempSelectedUsers([]);
         }
-
+        
         return () => {};
     }, [selectedUsers]);
+
 
     return (
         <div className="space-y-4 mt-2">

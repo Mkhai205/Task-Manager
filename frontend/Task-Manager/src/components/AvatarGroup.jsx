@@ -4,7 +4,7 @@ const AvatarGroup = ({ avatars, maxVisible = 3 }) => {
     return (
         <div className="flex items-center">
             {avatars.slice(0, maxVisible).map((avatar, index) =>
-                avatar.profileImageUrl ? (
+                (avatar.profileImageUrl ? (
                     <img
                         key={index}
                         src={avatar.profileImageUrl} // Access the profileImageUrl property
@@ -22,7 +22,7 @@ const AvatarGroup = ({ avatars, maxVisible = 3 }) => {
                     >
                         {getInitials(avatar.name)} {/* Use initials if no profileImageUrl */}
                     </div>
-                )
+                ))
             )}
 
             {avatars.length > maxVisible && (

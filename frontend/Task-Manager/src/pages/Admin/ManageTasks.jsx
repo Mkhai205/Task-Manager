@@ -6,6 +6,7 @@ import { API_PATHS } from "../../utils/apiPaths";
 import { LuFileSpreadsheet } from "react-icons/lu";
 import TaskStatusTabs from "../../components/TaskStatusTabs";
 import TaskCard from "../../components/Cards/TaskCard";
+import toast from "react-hot-toast";
 
 const ManageTasks = () => {
     const [allTasks, setAllTasks] = useState([]);
@@ -45,7 +46,25 @@ const ManageTasks = () => {
         navigate(`/admin/create-task`, { state: { taskId: taskData._id } });
     };
 
-    const handleDownloadReport = (async) => {};
+    const handleDownloadReport = async () => {
+        try {
+            const response = await axiosInstance.get(API_PATHS.REPORTS.EXPORT_TASKS, {
+                responseType: "blob",
+            });
+
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement("a");
+            link.href = url;
+            link.setAttribute("download", "tasks_report.xlsx"); // Specify the file name
+            document.body.appendChild(link);
+            link.click(); // Programmatically click the link to trigger the download
+            link.parentNode.removeChild(link); // Clean up and remove the link element
+            window.URL.revokeObjectURL(url); // Release the object URL
+        } catch (error) {
+            console.error("Error downloading report:", error);
+            toast.error("Failed to download report. Please try again.");
+        }
+    };
 
     useEffect(() => {
         getAllTasks(filterStatus);
@@ -54,7 +73,7 @@ const ManageTasks = () => {
 
     return (
         <DashboardLayout activeMenu="Manege Tasks">
-            <div className="my-5">
+            <div className="my-3">
                 <div className="flex flex-col lg:flex-row lg:items-center justify-between">
                     <div className="flex items-center justify-between gap-3">
                         <h2 className="text-xl font-bold md:text-xl">My Tasks</h2>
