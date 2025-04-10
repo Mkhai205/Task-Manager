@@ -17,7 +17,7 @@ const DashboardLayout = ({ children, activeMenu }) => {
                     </div>
 
                     {/* Allow scrolling for the main content */}
-                    <div className="grow mx-5 mb-18 overflow-auto">{children}</div>
+                    <div className="grow mx-5 mb-18 overflow-auto hide-scrollbar">{children}</div>
                 </div>
             )}
         </div>

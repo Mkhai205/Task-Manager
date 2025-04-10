@@ -50,26 +50,28 @@ const SideMenu = ({ activeMenu }) => {
                     </div>
                 )}
 
-                <h5 className="text-[18px] text-gray-950 font-bold leading-6 mt-3">{user?.name || ""}</h5>
+                <h5 className="text-[18px] text-gray-950 font-bold leading-6 mt-3">
+                    {user?.name || ""}
+                </h5>
 
                 <p className="text-[14px] text-gray-600 mb-4">{user?.email || ""}</p>
 
-                {sideMenuData.map((item, index) => {
-                    return (
-                        <button
-                            key={`menu_${index}`}
-                            className={`w-full flex items-center gap-4 text-[16px] ${
-                                activeMenu == item.label
-                                    ? "text-primary bg-linear-to-r from-blue-50/40 to-blue-100/50 border-r-3"
-                                    : ""
-                            } py-3 px-6 mb-3 cursor-pointer`}
-                            onClick={() => handleClick(item.path)}
-                        >
-                            <item.icon className="text-xl" />
-                            {item.label}
-                        </button>
-                    );
-                })}
+                {sideMenuData.map((item, index) => (
+                    <button
+                        key={`menu_${index}`}
+                        className={`w-full flex items-center gap-4 text-[16px] ${
+                            activeMenu == item.label
+                                ? "text-primary bg-linear-to-r from-blue-50/40 to-blue-100/50 border-r-3"
+                                : ""
+                        } ${
+                            item.id === "05" ? "text-red-500 hover:bg-red-50" : "text-gray-600 hover:bg-gray-50"
+                        } py-3 px-6 mb-3 cursor-pointer`}
+                        onClick={() => handleClick(item.path)}
+                    >
+                        <item.icon className="text-xl" />
+                        {item.label}
+                    </button>
+                ))}
             </div>
         </div>
     );

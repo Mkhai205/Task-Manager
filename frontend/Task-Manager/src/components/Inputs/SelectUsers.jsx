@@ -65,7 +65,7 @@ const SelectUsers = ({ selectedUsers, setSelectedUsers }) => {
             )}
 
             <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Select Users">
-                <div className="space-y-4 h-[60vh] overflow-auto">
+                <div className="space-y-4 h-[60vh] overflow-auto hide-scrollbar">
                     {allUsers.map((user) => (
                         <div
                             key={user._id}

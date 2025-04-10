@@ -2,6 +2,7 @@ import Progress from "../Progress";
 import AvatarGroup from "../AvatarGroup";
 import { LuPaperclip } from "react-icons/lu";
 import moment from "moment";
+import { getPriorityTagColor, getStatusTagColor } from "../../utils/helper";
 
 const TaskCard = ({
     title,
@@ -17,31 +18,7 @@ const TaskCard = ({
     todoChecklist,
     onClick,
 }) => {
-    const getStatusTagColor = () => {
-        switch (status) {
-            case "Completed":
-                return "bg-green-100 text-green-800 border border-green-500/10";
-            case "In Progress":
-                return "bg-yellow-100 text-yellow-800 border border-yellow-500/10";
-            case "Pending":
-                return "bg-red-100 text-red-800 border border-red-500/10";
-            default:
-                return "bg-gray-100 text-gray-800 border border-gray-500/10";
-        }
-    };
 
-    const getPriorityTagColor = () => {
-        switch (priority) {
-            case "Low":
-                return "text-emerald-500 bg-emerald-100 border border-emerald-500/10";
-            case "Medium":
-                return "text-amber-500 bg-amber-100 border border-amber-500/10";
-            case "High":
-                return "text-rose-500 bg-rose-100 border border-rose-500/10";
-            default:
-                return "text-gray-500 bg-gray-100 border border-gray-500/10";
-        }
-    };
 
     return (
         <div
@@ -50,12 +27,12 @@ const TaskCard = ({
         >
             <div className="flex items-end gap-3 px-4">
                 <div
-                    className={`text-[11px] font-medium ${getStatusTagColor()} px-4 py-0.5 rounded`}
+                    className={`text-[11px] font-medium ${getStatusTagColor(status)} px-4 py-0.5 rounded`}
                 >
                     {status}
                 </div>
                 <div
-                    className={`text-[11px] font-medium ${getPriorityTagColor()} px-4 py-0.5 rounded`}
+                    className={`text-[11px] font-medium ${getPriorityTagColor(priority)} px-4 py-0.5 rounded`}
                 >
                     {priority} Priority
                 </div>

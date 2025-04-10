@@ -1,4 +1,4 @@
-import { getInitials } from "../../utils/helper";
+import { getInitials, getStatusTagColor } from "../../utils/helper";
 
 const UserCard = ({ userInfo }) => {
     return (
@@ -25,15 +25,19 @@ const UserCard = ({ userInfo }) => {
             </div>
 
             <div className="flex items-end gap-3 mt-5">
-                <StatusCard label="Pending" count={userInfo?.pendingTasks || 0} status="Pending" />
+                <StatusCard
+                    label="Pending"
+                    count={userInfo?.taskCounts?.pending || 0}
+                    status="Pending"
+                />
                 <StatusCard
                     label="In Progress"
-                    count={userInfo?.inProgressTasksCount || 0}
+                    count={userInfo?.taskCounts?.inProgress || 0}
                     status="In Progress"
                 />
                 <StatusCard
                     label="Completed"
-                    count={userInfo?.completedTasks || 0}
+                    count={userInfo?.taskCounts?.completed || 0}
                     status="Completed"
                 />
             </div>
@@ -44,22 +48,11 @@ const UserCard = ({ userInfo }) => {
 export default UserCard;
 
 const StatusCard = ({ label, count, status }) => {
-    const getStatusTagColor = () => {
-        switch (status) {
-            case "Pending":
-                return "text-yellow-500 bg-gray-50";
-            case "In Progress":
-                return "text-blue-500 bg-gray-50";
-            case "Completed":
-                return "text-green-500 bg-gray-50";
-            default:
-                return "text-gray-500 bg-gray-50";
-        }
-    };
-
     return (
         <div
-            className={`flex-1 text-[10px] font-medium ${getStatusTagColor()} px-4 py-0.5 rounded`}
+            className={`flex-1 text-[10px] font-medium ${getStatusTagColor(
+                status
+            )} px-4 py-0.5 rounded`}
         >
             <span className="text-[12px] font-semibold">{count}</span> <br /> {label}
         </div>
